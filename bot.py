@@ -34,13 +34,13 @@ async def on_ready():
     except Exception as e:
         print(f"Failed to sync commands: {e}")
 
-@bot.tree.command(name="atidefinti", description="Move a user through channels until they undeafen.")
-@app_commands.describe(target_user="Select a user to move")
+@bot.tree.command(name="atidefinti", description="Priversti asmenį atsidefinti.")
+@app_commands.describe(target_user="Pasirinkite asmenį")
 async def atidefinti(interaction: discord.Interaction, target_user: discord.Member):
     await interaction.response.defer(ephemeral=True)
 
     if not target_user.voice or not target_user.voice.channel:
-        await interaction.followup.send("❌ The selected user is not in a voice channel.")
+        await interaction.followup.send("❌ Asmuo nėra voice chate.")
         return
 
     original_channel = target_user.voice.channel
@@ -67,9 +67,9 @@ async def atidefinti(interaction: discord.Interaction, target_user: discord.Memb
             await target_user.move_to(original_channel)
 
         if target_user.voice and not target_user.voice.self_deaf:
-            await interaction.followup.send("✅ User undeafened and was returned to their original channel.")
+            await interaction.followup.send("✅ Asmuo atsidefino ir buvo gražintas.")
         else:
-            await interaction.followup.send("⚠️ User did not undeafen. Returned to original channel after timeout.")
+            await interaction.followup.send("⚠️ Asmuo neatsidefino per nustatyta laiką.")
 
     except Exception as e:
         await interaction.followup.send(f"⚠️ Error: {e}")
